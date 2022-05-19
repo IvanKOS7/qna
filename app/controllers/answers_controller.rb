@@ -1,5 +1,4 @@
 class AnswersController < ApplicationController
-
   before_action :load_question, only: [:index, :show, :new, :create]
   before_action :find_answer, only: [:show, :edit, :update, :destroy]
 
@@ -7,17 +6,13 @@ class AnswersController < ApplicationController
     @answers = @question.answers
   end
 
-  def show
-
-  end
+  def show; end
 
   def new
     @answer = @question.answers.new
   end
 
-  def edit
-
-  end
+  def edit; end
 
   def create
     @answer = @question.answers.new(answer_params)
@@ -55,5 +50,4 @@ class AnswersController < ApplicationController
   def answer_params
     params.require(:answer).permit(:body)
   end
-
 end

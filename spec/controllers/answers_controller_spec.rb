@@ -6,7 +6,6 @@ RSpec.describe AnswersController, type: :controller do
   let(:answer) { question.answers.first }
 
   describe 'GET #index' do
-
     before { get :index,  params: { question_id: question.id } }
 
     it 'populates an array of all answers' do
@@ -19,7 +18,6 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'GET #show' do
-
     before { get :show,  params: { question_id: question.id, id: answer.id } }
 
     it 'assigns the requested answer to @answer' do
@@ -32,7 +30,6 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'GET #new' do
-
     before { get :new, params: { question_id: question.id } }
 
     it 'assign anew answer to @answer' do
@@ -45,7 +42,6 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'GET #edit' do
-
     before { get :edit, params: { question_id: question.id, id: answer.id } }
 
     it 'assign the req Question to @question' do
@@ -58,21 +54,23 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'POST #create' do
+    let!(:question) { create(:question, :with_answers) }
     context 'with valid attr' do
       it 'saves a new answer in the db' do
-        count = Answer.count
-        expect { post :create, params: { question_id: question.id, answer: attributes_for(:answer) } }.to change(Answer, :count).by(4)
+        expect { post :create, params: { question_id: question.id, answer: attributes_for(:answer) } }.to change(Answer, :count).by(1)
       end
+
       it 'redirect to show answer' do
         post :create, params: { question_id: question.id, answer: attributes_for(:answer) }
         expect(response).to redirect_to assigns(:question)
       end
     end
+
     context 'with invalid attr' do
       it 'NO saves a new question in the db' do
-        count = Answer.count
-        expect { post :create, params: { question_id: question.id, answer: attributes_for(:answer, :invalid) } }.to change(Answer, :count).by(3)
+        expect { post :create, params: { question_id: question.id, answer: attributes_for(:answer, :invalid) } }.to_not change(Answer, :count)
       end
+
       it 'redirect to show' do
         post :create, params: { question_id: question.id, answer: attributes_for(:answer, :invalid) }
         expect(response).to render_template :new
@@ -82,6 +80,7 @@ RSpec.describe AnswersController, type: :controller do
 
   describe 'PATCH #update' do
     context 'with valid attributes' do
+
       it 'assigns the requested answer to @answer' do
         patch :update, params: { id: answer.id, answer: attributes_for(:answer), question_id: question.id }
         expect(assigns(:answer)).to eq answer
