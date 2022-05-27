@@ -1,0 +1,4 @@
+= fields_for :answer, @question.answers.new, local: true do |f|
+  = f.label :body
+  = f.text_field :body
+  = f.submit 'Answer the question'

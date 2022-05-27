@@ -1,5 +1,5 @@
 class AnswersController < ApplicationController
-  before_action :load_question, only: [:index, :show, :new, :create]
+  before_action :load_question, only: [:index, :show, :create]
   before_action :find_answer, only: [:show, :edit, :update, :destroy]
 #test me
   def index
@@ -48,6 +48,6 @@ class AnswersController < ApplicationController
   end
 
   def answer_params
-    params.require(:answer).permit(:body)
+    params.require(:answer).permit(:question_id, :body)
   end
 end

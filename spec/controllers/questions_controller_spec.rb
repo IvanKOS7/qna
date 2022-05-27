@@ -5,7 +5,6 @@ RSpec.describe QuestionsController, type: :controller do
   let(:user) { create(:user) }
 
   describe 'GET #index' do
-    #ленивое выполнение - выполняетсся один раз в отличие от let!
     let(:questions) { create_list(:question, 3) }
 
     before { get :index }

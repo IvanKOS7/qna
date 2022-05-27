@@ -1,2 +1,6 @@
-h1= @question.title
-p= @question.body
+div class="question"
+  = render @question
+- if current_user
+ = render 'answers/form', object: @question
+div class="answers"
+  = render @question.answers
