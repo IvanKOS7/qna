@@ -13,4 +13,5 @@ FactoryBot.define do
       create_list(:answer, 3, question_id: q.id)
     end
   end
+
 end

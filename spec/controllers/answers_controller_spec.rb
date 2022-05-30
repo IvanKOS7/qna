@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
 
+  let(:user) { create(:user) }
   let(:question) { create(:question, :with_answers) }
   let(:answer) { question.answers.first }
 
@@ -30,7 +31,11 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'GET #new' do
-    before { get :new, params: { question_id: question.id } }
+    let(:question) { create(:question) }
+
+    before do login(user)
+      get :new, params: { question_id: question.id }
+    end
 
     it 'assign anew answer to @answer' do
       expect(assigns(:answer)).to be_a_new(Answer)
@@ -42,6 +47,7 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'GET #edit' do
+    before { login(user) }
     before { get :edit, params: { question_id: question.id, id: answer.id } }
 
     it 'assign the req Question to @question' do
@@ -54,6 +60,7 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'POST #create' do
+    before { login(user) }
     let!(:question) { create(:question, :with_answers) }
     context 'with valid attr' do
       it 'saves a new answer in the db' do
@@ -79,6 +86,7 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'PATCH #update' do
+    before { login(user) }
     context 'with valid attributes' do
 
       it 'assigns the requested answer to @answer' do
@@ -99,6 +107,7 @@ RSpec.describe AnswersController, type: :controller do
     end
 
     context 'with invalid attributes' do
+      before { login(user) }
       it 'does not change question' do
         patch :update, params: { id: answer.id, answer: attributes_for(:answer, :invalid), question_id: question.id }
         question.reload
@@ -113,15 +122,34 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
-    let!(:answer) { question.answers.first }
 
-    it 'delete answer' do
-      expect { delete :destroy, params: { id: answer.id, question_id: question.id } }.to change(Answer, :count).by(-1)
+    before { login(user) }
+
+    context 'Author is author' do
+      let!(:answer) { create(:answer, author: user, question_id: question.id) }
+      it 'delete answer' do
+        expect { delete :destroy, params: { id: answer.id, question_id: question.id } }.to change(Answer, :count).by(-1)
+      end
+
+      it 'redirect to index' do
+        delete :destroy, params: { id: answer.id, question_id: question.id }
+        expect(response).to render_template :index
+      end
     end
 
-    it 'redirect to index' do
-      delete :destroy, params: { id: answer.id, question_id: question.id }
-      expect(response).to render_template :index
+
+    context 'Stranger' do
+      let!(:answer) { create(:answer, question_id: question.id) }
+
+      it 'delete answer' do
+        expect { delete :destroy, params: { id: answer.id, question_id: question.id } }.to_not change(Answer, :count)
+      end
+
+
+      it 'redirect to index' do
+        delete :destroy, params: { id: answer.id, question_id: question.id }
+        expect(response).to_not render_template :index
+      end
     end
   end
 end

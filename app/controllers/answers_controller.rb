@@ -1,5 +1,5 @@
 class AnswersController < ApplicationController
-  before_action :load_question, only: [:index, :show, :create]
+  before_action :load_question, only: [:index, :show, :create, :new]
   before_action :find_answer, only: [:show, :edit, :update, :destroy]
 #test me
   def index
@@ -33,8 +33,12 @@ class AnswersController < ApplicationController
   end
 
   def destroy
-    @answer.destroy
-    render :index
+    if @answer.author == current_user
+      @answer.destroy
+      render :index
+    else
+      { alert: 'You have not right to delete Answer'}
+    end
   end
 
   private
