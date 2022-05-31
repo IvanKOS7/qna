@@ -1,7 +1,7 @@
 class AnswersController < ApplicationController
   before_action :load_question, only: [:index, :show, :create, :new]
   before_action :find_answer, only: [:show, :edit, :update, :destroy]
-#test me
+
   def index
     @answers = @question.answers
   end
@@ -10,12 +10,14 @@ class AnswersController < ApplicationController
 
   def new
     @answer = @question.answers.new
+    @answer.author = current_user
   end
 
   def edit; end
 
   def create
     @answer = @question.answers.new(answer_params)
+    current_user.answers.push(@answer)
     if @answer.save
       redirect_to @question
     else
@@ -33,11 +35,9 @@ class AnswersController < ApplicationController
   end
 
   def destroy
-    if @answer.author == current_user
+    if @answer.author.id == current_user.id
       @answer.destroy
       render :index
-    else
-      { alert: 'You have not right to delete Answer'}
     end
   end
 

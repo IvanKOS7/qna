@@ -6,7 +6,7 @@ feature 'User can view questions list', %q{
 } do
 
     describe 'Questions collection' do
-      given!(:questions) { create_list(:question, 3) }
+      given!(:questions) { create_list(:question, 3, :with_author) }
       scenario 'Question collection displayed' do
         visit questions_path
         expect(page).to have_css('.questions')
