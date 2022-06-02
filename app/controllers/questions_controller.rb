@@ -6,7 +6,9 @@ class QuestionsController < ApplicationController
     @questions = Question.all
   end
 
-  def show; end
+  def show
+    @answer = @question.answers.new
+  end
 
   def new
     @question = current_user.questions.new(author: current_user)
@@ -16,7 +18,6 @@ class QuestionsController < ApplicationController
     @question = current_user.questions.new(question_params)
     if @question.save
       redirect_to @question, notice: 'Your question successfully created.'
-
     else
       render :new
     end
@@ -34,10 +35,10 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
-    if @question.author == current_user
+    if current_user.author_of?(@question)
       @question.destroy
-      redirect_to questions_path
     end
+    redirect_to questions_path
   end
 
   private

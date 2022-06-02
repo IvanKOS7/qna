@@ -6,7 +6,7 @@ feature 'User can view question and question answers', %q{
 } do
 
     given(:user) { create(:user) }
-    given(:question) { create(:question, :with_answers, :with_author) }
+    given(:question) { create(:question, :with_answers) }
 
     describe 'Authenticated user' do
       background do

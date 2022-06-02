@@ -1,6 +1,6 @@
-div class="question"
-  = render @question
+
+= render @question
 - if current_user
- = render 'answers/form', object: @question
-div class="answers"
+  = render 'answers/form'
+.answers
   = render @question.answers

@@ -1,12 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe QuestionsController, type: :controller do
-  let(:question) { create(:question, :with_author) }
+  let(:question) { create(:question) }
   let(:user) { create(:user) }
   let(:another_user) { create(:user) }
 
   describe 'GET #index' do
-    let(:questions) { create_list(:question, 3, :with_author) }
+    let(:questions) { create_list(:question, 3) }
 
     before { get :index }
 
@@ -118,7 +118,7 @@ RSpec.describe QuestionsController, type: :controller do
       it 'does not change question' do
         patch :update, params: { id: question, question: attributes_for(:question, :invalid) }
         question.reload
-        expect(question.title).to eq 'MyString'
+        expect(question.title).to eq 'MyString32'
         expect(question.body).to eq 'MyText'
       end
 
@@ -154,7 +154,7 @@ RSpec.describe QuestionsController, type: :controller do
 
       it 'redirect to index' do
         delete :destroy, params: { id: question }
-        expect(response).to_not redirect_to questions_path
+        expect(response).to redirect_to questions_path
       end
     end
   end
