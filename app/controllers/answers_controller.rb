@@ -1,30 +1,23 @@
 class AnswersController < ApplicationController
-  before_action :load_question, only: [:index, :show, :new, :create]
+  before_action :load_question, only: [:new, :create]
   before_action :find_answer, only: [:show, :edit, :update, :destroy]
-
-  def index
-    @answers = @question.answers
-  end
-
-  def show; end
-
-  def new
-    @answer = @question.answers.new
-  end
 
   def edit; end
 
+
   def create
     @answer = @question.answers.new(answer_params)
+    @answer.author = current_user
+
     if @answer.save
-      redirect_to @question
+      redirect_to @question, notice: 'Your answer successfully created.'
     else
-      render :new
+      render 'questions/show'
     end
   end
 
   def update
-    @answer.update(answer_params)
+    @answer.update(answer_params) if current_user.author_of?(@answer)
     if @answer.save
       redirect_to @answer.question
     else
@@ -33,8 +26,10 @@ class AnswersController < ApplicationController
   end
 
   def destroy
-    @answer.destroy
-    render :index
+    if current_user.author_of?(@answer)
+      @answer.destroy
+    end
+    redirect_to @answer.question
   end
 
   private

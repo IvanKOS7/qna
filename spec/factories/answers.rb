@@ -6,5 +6,8 @@ FactoryBot.define do
     trait :invalid do
       body { nil }
     end
+    trait :with_author do
+      author { build(:user) }
+    end
   end
 end

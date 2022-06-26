@@ -1,0 +1,6 @@
+
+= render @question
+- if current_user
+  = render 'answers/form'
+.answers
+  = render @question.answers
