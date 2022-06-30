@@ -1,6 +1,9 @@
 
 = render @question
+.answer-errors
+  = render 'shared/errors', resource: @answer
 - if current_user
   = render 'answers/form'
-.answers
-  = render @question.answers
+- if @answer
+  .answers
+    = render @question.answers

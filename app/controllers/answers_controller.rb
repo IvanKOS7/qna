@@ -1,28 +1,17 @@
 class AnswersController < ApplicationController
-  before_action :load_question, only: [:new, :create]
-  before_action :find_answer, only: [:show, :edit, :update, :destroy]
-
-  def edit; end
+  before_action :load_question, only: %i[create]
+  before_action :find_answer, only: [:update, :destroy]
 
 
   def create
-    @answer = @question.answers.new(answer_params)
+    @answer = @question.answers.create(answer_params)
     @answer.author = current_user
-
-    if @answer.save
-      redirect_to @question, notice: 'Your answer successfully created.'
-    else
-      render 'questions/show'
-    end
+    #format.js
   end
 
   def update
-    @answer.update(answer_params) if current_user.author_of?(@answer)
-    if @answer.save
-      redirect_to @answer.question
-    else
-      render :edit
-    end
+    @answer.update(answer_params)# if current_user.author_of?(@answer)
+    @question = @answer.question
   end
 
   def destroy

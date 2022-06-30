@@ -10,7 +10,7 @@ feature 'User can create answer for question', %q{
   given(:user) { create(:user) }
   given(:question) { create(:question, author: user) }
 
-  describe 'Authenticated user' do
+  describe 'Authenticated user', js: true do
 
     background do
       sign_in(user)
@@ -32,7 +32,7 @@ feature 'User can create answer for question', %q{
     end
   end
 
-  scenario 'Non authenticated user can not create answer' do
+  scenario 'Non authenticated user can not create answer', js:true do
     visit question_path(question)
     expect(page).to_not have_content 'Answer the question'
   end

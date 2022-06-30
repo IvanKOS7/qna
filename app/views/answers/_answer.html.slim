@@ -1,2 +1,11 @@
+div [id="answer-#{answer.id}"]
+  p= answer.body
 
-p= answer.body
+  - if user_signed_in?
+    p=link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
+  = form_with model: answer,
+              method: :patch,
+              html: { id: "edit-answer-#{answer.id}", class: 'hidden' }, local: false do |f|
+    = f.label :body, 'Your answer: '
+    = f.text_area :body
+    = f.submit 'Update'
