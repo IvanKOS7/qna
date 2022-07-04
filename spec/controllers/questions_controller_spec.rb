@@ -118,7 +118,7 @@ RSpec.describe QuestionsController, type: :controller do
       it 'does not change question' do
         patch :update, params: { id: question, question: attributes_for(:question, :invalid) }
         question.reload
-        expect(question.title).to eq 'MyString32'
+        expect(question.title).to eq 'MyString30'
         expect(question.body).to eq 'MyText'
       end
 

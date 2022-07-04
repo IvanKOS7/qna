@@ -1,11 +1,12 @@
 div [id="answer-#{answer.id}"]
   p= answer.body
 
-  - if user_signed_in?
-    p=link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
+  - if user_signed_in? && current_user.author_of?(answer)
+    p= link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
+    p= link_to 'Delete answer', answer_path(answer), remote: true, method: :delete
   = form_with model: answer,
               method: :patch,
               html: { id: "edit-answer-#{answer.id}", class: 'hidden' }, local: false do |f|
-    = f.label :body, 'Your answer: '
+    = f.label :body, 'Your answer'
     = f.text_area :body
     = f.submit 'Update'
