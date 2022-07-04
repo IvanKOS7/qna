@@ -88,11 +88,11 @@ RSpec.describe AnswersController, type: :controller do
     context 'Author is author' do
       let!(:answer) { create(:answer, author: user, question_id: question.id) }
       it 'delete answer' do
-        expect { delete :destroy, params: { id: answer.id, question_id: question.id } }.to change(Answer, :count).by(-1)
+        expect { delete :destroy, format: :js, params: { id: answer.id, question_id: question.id } }.to change(Answer, :count).by(-1)
       end
 
       it 'redirect to question' do
-        delete :destroy, params: { id: answer.id, question_id: question.id }
+        delete :destroy, format: :js, params: { id: answer.id, question_id: question.id }
         expect(response).to redirect_to answer.question
       end
     end
@@ -102,12 +102,12 @@ RSpec.describe AnswersController, type: :controller do
       let!(:answer) { create(:answer, :with_author, question_id: question.id) }
 
       it 'delete answer' do
-        expect { delete :destroy, params: { id: answer.id, question_id: question.id } }.to_not change(Answer, :count)
+        expect { delete :destroy, format: :js, params: { id: answer.id, question_id: question.id } }.to_not change(Answer, :count)
       end
 
 
       it 'redirect to question' do
-        delete :destroy, params: { id: answer.id, question_id: question.id }
+        delete :destroy, format: :js, params: { id: answer.id, question_id: question.id }
         expect(response).to redirect_to answer.question
       end
     end

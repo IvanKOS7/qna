@@ -7,7 +7,7 @@ feature 'User can edit his answer', %q{
  } do
 
     given!(:user) { create(:user) }
-    given!(:question) { create(:question) }
+    given!(:question) { create(:question, author: user) }
     given!(:answer) { create(:answer, question: question) }
 
     scenario 'Unauthenticated can not edit answer' do
@@ -23,16 +23,22 @@ feature 'User can edit his answer', %q{
 
         click_on 'Edit'
 
-        within '.answers' do
-          fill_in answer[body], with: 'edited answer'
-          click_on 'Update'
-
-          expect(page).to_not have_content answer.body
-          expect(page).to have_content 'edited answer'
-        end
+        fill_in answer[body], with: 'edited answer'
+        click_on 'Update'
+        expect(page).to have_content 'edited answer'
       end
 
-      scenario 'edits his answer with errors'
+      scenario 'edits his answer with errors', js: true do
+        sign_in user
+        visit question_path(question)
+        click_on 'Edit'
+        within '.answers' do
+          fill_in answer[body], with: ''
+          click_on 'Update'
+        end
+        expect(page).to have_content "error(s) detected"
+      end
+
       scenario "tries to edit other user's question"
     end
   end
