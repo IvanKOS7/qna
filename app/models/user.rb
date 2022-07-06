@@ -8,6 +8,6 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   def author_of?(item)
-    item.author.id == self.id
+    !item.author.nil? && (item.author.id == self.id)
   end
 end

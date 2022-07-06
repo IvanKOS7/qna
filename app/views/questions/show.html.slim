@@ -1,6 +1,15 @@
 
 = render @question
+- if current_user && current_user.author_of?(@question)
+  = link_to 'Edit question', edit_question_path(@question)
+.answer-errors
+  = render 'shared/errors', resource: @answer
 - if current_user
   = render 'answers/form'
+-  unless @best_answer.nil?
+  .best-answer
+    .border.border-danger
+      p= 'Best Answer'
+      = render @best_answer
 .answers
-  = render @question.answers
+  = render @other_answers

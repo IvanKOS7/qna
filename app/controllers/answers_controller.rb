@@ -1,35 +1,28 @@
 class AnswersController < ApplicationController
-  before_action :load_question, only: [:new, :create]
-  before_action :find_answer, only: [:show, :edit, :update, :destroy]
-
-  def edit; end
+  before_action :load_question, only: %i[create]
+  before_action :find_answer, only: [:update, :destroy]
+  before_action :load_answer, only: [:best]
 
 
   def create
-    @answer = @question.answers.new(answer_params)
+    @answer = @question.answers.create(answer_params)
     @answer.author = current_user
-
-    if @answer.save
-      redirect_to @question, notice: 'Your answer successfully created.'
-    else
-      render 'questions/show'
-    end
+    @answer.save
   end
 
   def update
     @answer.update(answer_params) if current_user.author_of?(@answer)
-    if @answer.save
-      redirect_to @answer.question
-    else
-      render :edit
-    end
+    @question = @answer.question
   end
 
   def destroy
-    if current_user.author_of?(@answer)
-      @answer.destroy
+    @answer.destroy if current_user.author_of?(@answer)
+  end
+
+  def best
+    if @answer.mark_as_best
+      redirect_to @answer.question, notice: 'New best answer!'
     end
-    redirect_to @answer.question
   end
 
   private
@@ -40,6 +33,10 @@ class AnswersController < ApplicationController
 
   def find_answer
     @answer = Answer.find(params[:id])
+  end
+
+  def load_answer
+    @answer = Answer.find(params[:answer_id])
   end
 
   def answer_params

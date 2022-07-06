@@ -7,7 +7,9 @@ class QuestionsController < ApplicationController
   end
 
   def show
-    @answer = @question.answers.new
+    @answer = Answer.new
+    @best_answer = @question.best_answer
+    @other_answers = @question.answers.where.not(id: @question.best_answer_id)
   end
 
   def new
@@ -32,6 +34,10 @@ class QuestionsController < ApplicationController
     else
       render :edit
     end
+  end
+
+  def best
+    @question.mark_as_best(answer)
   end
 
   def destroy

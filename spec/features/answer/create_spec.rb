@@ -9,8 +9,9 @@ feature 'User can create answer for question', %q{
 
   given(:user) { create(:user) }
   given(:question) { create(:question, author: user) }
+  given!(:answer) { create(:answer, question: question) }
 
-  describe 'Authenticated user' do
+  describe 'Authenticated user', js: true do
 
     background do
       sign_in(user)
@@ -18,21 +19,20 @@ feature 'User can create answer for question', %q{
     end
 
     scenario 'can create the answer with valid body' do
-      fill_in 'Body', with: 'Answer body'
-      click_on 'Answer the question'
+      fill_in answer[body], with: 'Answer body'
+      click_on 'Create'
       expect(page).to have_content question.title
       expect(page).to have_content question.body
-      expect(page).to have_content 'Your answer successfully created.'
       expect(page).to have_content 'Answer body'
     end
 
     scenario 'create the answer with empty data' do
-      click_on 'Answer the question'
+      click_on 'Create'
       expect(page).to have_content "Body can't be blank"
     end
   end
 
-  scenario 'Non authenticated user can not create answer' do
+  scenario 'Non authenticated user can not create answer', js:true do
     visit question_path(question)
     expect(page).to_not have_content 'Answer the question'
   end

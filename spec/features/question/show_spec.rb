@@ -32,7 +32,7 @@ feature 'User can view question and question answers', %q{
       end
 
       scenario 'Unauthenticated user tries to create answer' do
-        expect(page).to_not have_selector("input")
+        expect(page).to_not have_button("Create")
       end
     end
 end

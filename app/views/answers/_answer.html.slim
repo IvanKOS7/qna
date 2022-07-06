@@ -1,2 +1,16 @@
+div [id="answer-#{answer.id}"]
+  .border.border-success
+    p= answer.body
 
-p= answer.body
+    - if user_signed_in?
+      - if current_user.author_of?(answer)
+        p= link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
+        p= link_to 'Delete answer', answer_path(answer), remote: true, method: :delete
+      - if current_user.author_of?(answer.question) && !answer.best?
+        p= button_to 'Mark as best', answer_best_path(answer.id)
+    = form_with model: answer,
+                method: :patch,
+                html: { id: "edit-answer-#{answer.id}", class: 'hidden' }, local: false do |f|
+      = f.label :body, 'Your answer'
+      = f.text_field :body
+      = f.submit 'Update'
