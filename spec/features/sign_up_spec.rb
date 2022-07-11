@@ -14,7 +14,6 @@ feature 'User can sign up', %q{
     fill_in 'Password', with: '123456'
     fill_in 'Password confirmation', with: '123456'
     click_on 'Sign up'
-    save_and_open_page
     expect(page).to have_content "Welcome! You have signed up successfully."
   end
 

@@ -32,11 +32,12 @@ feature 'User can edit his answer', %q{
         sign_in user
         visit question_path(question)
         click_on 'Edit'
-        within '.answers' do
+        
+        be_within ".answers" do
           fill_in answer[body], with: ''
           click_on 'Update'
+          expect(page).to have_content "error(s) detected"
         end
-        expect(page).to have_content "error(s) detected"
       end
 
       scenario "tries to edit other user's question"

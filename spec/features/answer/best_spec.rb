@@ -20,7 +20,7 @@ feature 'User can choose best answer for question', %q{
     scenario 'Question author can choose best answer' do
 
       click_on 'Mark as best'
-      expect(page).to have_content 'Best answer'
+      expect(page).to have_content 'Best Answer'
       expect(page).to_not have_button 'Mark as best'
       expect(page).to have_content answer.body
     end
