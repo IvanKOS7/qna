@@ -2,11 +2,14 @@ require 'rails_helper'
 
 RSpec.describe Answer, type: :model do
   describe 'associations' do
-    it { should belong_to(:question) }
+    it { should belong_to(:linkable) }
+    it { should have_many(:links).dependent(:destroy) }
+
   end
 
   describe 'validations' do
     it { should validate_presence_of :body }
+    it { should accept_nested_attributes_for :links }
   end
 
   it 'Must not be extra arguments' do

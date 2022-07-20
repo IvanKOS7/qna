@@ -18,6 +18,8 @@ gem "bootstrap"
 gem 'jquery-rails'
 gem 'aws-sdk-s3', require: false
 gem 'rack-cors'
+gem 'cocoon'
+
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]

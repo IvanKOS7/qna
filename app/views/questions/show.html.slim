@@ -1,5 +1,12 @@
 
 = render @question
+.links
+  p Links:
+  ul
+    - @question.links.each do |link|
+      li= link_to link.name, link.url
+      - if link.gist?
+          <script src="#{link.url}.js"></script>
 - if current_user && current_user.author_of?(@question)
   = link_to 'Edit question', edit_question_path(@question)
 .answer-errors
