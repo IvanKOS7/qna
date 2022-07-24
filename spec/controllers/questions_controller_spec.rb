@@ -29,6 +29,10 @@ RSpec.describe QuestionsController, type: :controller do
     it 'renders show view' do
       expect(response).to render_template :show
     end
+
+    it 'assigns new link for answer' do
+      expect(assigns(:answer).links.first).to be_a_new(Link)
+    end
   end
 
   describe 'GET #new' do
@@ -37,8 +41,12 @@ RSpec.describe QuestionsController, type: :controller do
 
     before { get :new }
 
-    it 'assign anew Question to @question' do
+    it 'assigns new Question to @question' do
       expect(assigns(:question)).to be_a_new(Question)
+    end
+
+    it 'assigns new Question Link to @question.link' do
+      expect(assigns(:question).links.first).to be_a_new(Link)
     end
 
     it 'renders new view' do
@@ -118,7 +126,7 @@ RSpec.describe QuestionsController, type: :controller do
       it 'does not change question' do
         patch :update, params: { id: question, question: attributes_for(:question, :invalid) }
         question.reload
-        expect(question.title).to eq 'MyString30'
+        expect(question.title).to eq 'MyString16'
         expect(question.body).to eq 'MyText'
       end
 
