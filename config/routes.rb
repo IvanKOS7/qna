@@ -10,5 +10,7 @@ Rails.application.routes.draw do
     delete :purge_file
   end
 
+  resources :links, only: [:destroy]
+
   root to: 'questions#index'
 end

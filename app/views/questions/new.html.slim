@@ -16,4 +16,5 @@
     = f.fields_for :links do |link|
       = render 'shared/link_fields', f: link
       = link_to_add_association 'add task', f, :links, partial: 'shared/link_fields'
+  = render 'rewards/reward_fields', f: f
   p= f.submit 'Ask'

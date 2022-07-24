@@ -11,6 +11,10 @@ class Question < ApplicationRecord
 
   validates :title, :body, presence: true
 
+  has_one :reward, dependent: :destroy
+  accepts_nested_attributes_for :reward, reject_if: :all_blank
+
+
   def mark_as_best(answer)
 		update(best_answer_id: answer.id)
 	end
