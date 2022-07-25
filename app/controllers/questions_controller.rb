@@ -9,13 +9,13 @@ class QuestionsController < ApplicationController
   def show
     @answer = Answer.new
     @best_answer = @question.best_answer
-    @answer.links.new
+    @answer.links.build
     @other_answers = @question.answers.where.not(id: @question.best_answer_id)
   end
 
   def new
     @question = current_user.questions.new(author: current_user)
-    @question.links.new
+    @question.links.build
     @question.reward = Reward.new
   end
 
