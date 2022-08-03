@@ -1,0 +1,9 @@
+p Create reward for question:
+p
+  = f.fields_for :reward do |r|
+    p
+      = r.label :title
+      = r.text_area :title
+    p
+      = r.label :file
+      = r.file_field :file
