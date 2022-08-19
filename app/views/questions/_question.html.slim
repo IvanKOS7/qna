@@ -2,6 +2,13 @@
   h1= question.title
   p= question.body
   p= question.author.email
+  .vote
+    .points-up
+      p= link_to image_tag('caret-up.svg'), question_add_points_path(question), remote: true, data: { data_action: 'up', method: :patch, type: :json }
+    .points
+      p= question.vote_points
+    .points-down
+      p= link_to image_tag('caret-down.svg'), question_low_points_path(question), remote: true, data: { data_action: 'up', method: :patch, type: :json }
   - if question.files.attached?
     - question.files.each do |file|
       p= link_to file.filename.to_s, url_for(file)
