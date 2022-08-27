@@ -1,4 +1,6 @@
 class QuestionsController < ApplicationController
+  include Voted
+
   before_action :authenticate_user!, except: [:index, :show]
   before_action :load_question, only: [:show, :edit, :update, :destroy]
 
@@ -14,8 +16,8 @@ class QuestionsController < ApplicationController
   end
 
   def new
-    @question = current_user.questions.new(author: current_user)
-    @question.links.build
+    @question = Question.new(author: current_user)
+    @question&.links&.build
     @question.reward = Reward.new
   end
 
