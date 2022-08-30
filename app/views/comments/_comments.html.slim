@@ -1,0 +1,7 @@
+
+div [id="#{model.class}-comments-#{model.id}"]
+  p Comments:
+  ul
+  - model.comments.each do |c|
+    div [id="c-#{c.id}"]
+    li= c.comment

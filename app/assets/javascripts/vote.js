@@ -8,7 +8,7 @@ $(document).on('turbolinks:load', function(){
     })
     .on('ajax:error', function(e) {
       var errors = e.detail[0]
-      console.log(e.detail)
+
       $.each(errors, function(index, value) {
         $('.answer-errors').append('<p>' + value + '</p>')
       })

@@ -12,12 +12,16 @@
   = link_to 'Edit question', edit_question_path(@question)
 .answer-errors
   = render 'shared/errors', resource: @answer
+
 - if current_user
   = render 'answers/form'
+  - if @question.comments.any?
+    = render 'comments/comments', model: @question
+
 -  unless @best_answer.nil?
   .best-answer
     .border.border-danger
       p= 'Best Answer'
       = render @best_answer
-.answers
+div [id="answers-#{@question.id}"]
   = render @other_answers

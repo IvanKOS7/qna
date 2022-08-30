@@ -12,3 +12,8 @@
   - if question.files.attached?
     - question.files.each do |file|
       p= link_to file.filename.to_s, url_for(file)
+  - if current_user
+    = form_with url: question_comments_path(question, commentable_type: Question, commentable_id: question.id), local: false do |c|
+      = c.label :comment
+      = c.text_field :comment
+      = c.submit 'Comment!'

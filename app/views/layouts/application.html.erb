@@ -2,14 +2,22 @@
 <html>
   <head>
     <title>QNA</title>
+
     <meta name="viewport" content="width=device-width,initial-scale=1">
+
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
+
+    <%= action_cable_meta_tag %>
+
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+
+
   </head>
 
   <body>
+        <%= Gon::Base.render_data %>
     <%= link_to 'Log out', destroy_user_session_path, method: :delete if user_signed_in? %>
 
     <p class="notice"><%= notice %></p>

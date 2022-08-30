@@ -1,10 +1,13 @@
+require 'gon'
 class AnswersController < ApplicationController
 
   include Voted
 
+
   before_action :load_question, only: %i[create]
   before_action :find_answer, only: [:update, :destroy]
   before_action :load_answer, only: [:best]
+  after_action :publish_answer, only: [:create]
 
 
   def create
@@ -36,6 +39,17 @@ class AnswersController < ApplicationController
   end
 
   private
+
+  def publish_answer
+
+    return if @answer.errors.any?
+
+    ActionCable.server.broadcast(
+      'answers',
+      { body: ApplicationController.render(partial: 'answers/answer',locals: { answer: @answer, current_user: current_user }),
+        question_id: @answer.question_id })
+  end
+
 
   def load_question
     @question = Question.find(params[:question_id])
