@@ -20,7 +20,8 @@ gem 'aws-sdk-s3', require: false
 gem 'rack-cors'
 gem 'cocoon'
 gem 'with_model'
-gem 'gon'
+
+gem 'action-cable-testing'
 
 
 group :development, :test do

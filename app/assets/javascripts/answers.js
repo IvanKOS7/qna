@@ -1,15 +1,17 @@
 var App = App = {}
 App.cable = ActionCable.createConsumer()
 
-
-
 App.cable.subscriptions.create('AnswersChannel', {
+
   connected: function() {
-      this.perform('follow')
+    var q = window.location.pathname.split('/')[2];
+    this.perform('follow', { question_id: q });
   },
 
   received: function(data) {
+    console.log('asaa')
     $('#answers-' + data['question_id']).append(data['body'])
+
   }
 
 })

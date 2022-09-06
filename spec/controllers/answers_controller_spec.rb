@@ -1,4 +1,5 @@
 require 'rails_helper'
+require "action_cable/testing/rspec"
 
 RSpec.describe AnswersController, type: :controller do
 
@@ -18,6 +19,10 @@ RSpec.describe AnswersController, type: :controller do
       it 'render on page without redirect' do
         post :create, format: :json, params: { question_id: question.id, answer: attributes_for(:answer, author: user) }
         expect(response.body).to have_content(answer.body)
+      end
+
+      it 'have broadcast' do
+        expect { post :create, format: :json, params: { question_id: question.id, answer: attributes_for(:answer, author: user) } }.to have_broadcasted_to("answers_for_q_#{question.id}")
       end
     end
 

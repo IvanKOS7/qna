@@ -1,4 +1,4 @@
-require 'gon'
+
 class AnswersController < ApplicationController
 
   include Voted
@@ -41,11 +41,10 @@ class AnswersController < ApplicationController
   private
 
   def publish_answer
-
     return if @answer.errors.any?
 
     ActionCable.server.broadcast(
-      'answers',
+      "answers_for_q_#{@answer.question.id}",
       { body: ApplicationController.render(partial: 'answers/answer',locals: { answer: @answer, current_user: current_user }),
         question_id: @answer.question_id })
   end

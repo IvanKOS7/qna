@@ -14,11 +14,11 @@ Rails.application.routes.draw do
               only: [:create, :update, :destroy, :best] do
       post 'best'
       concerns :votable
-      resources :comments, only: [:new, :create, :destroy]
+      resources :comments, only: [:create]
 
     end
     concerns :votable
-    resources :comments, only: [:new, :create, :destroy]
+    resources :comments, only: [:create]
 
   end
 

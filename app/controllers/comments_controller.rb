@@ -1,6 +1,6 @@
 class CommentsController < ApplicationController
 
-    after_action :publish_comment, only: [:create]
+  after_action :publish_comment, only: [:create]
 
   def create
     @comment = current_user.comments.build(comment: params[:comment], commentable_type: params[:commentable_type], commentable_id: params[:commentable_id])
@@ -18,10 +18,9 @@ class CommentsController < ApplicationController
     @inst = @comment.commentable_type.constantize.find(@comment.commentable_id)
     return  if @comment.errors.any?
     ActionCable.server.broadcast(
-      'comments',
+      "comments_from_q_#{@comment.commentable_type == 'Question' ? @inst.id : @inst.question_id}",
         { body: ApplicationController.render(partial: 'comments/comment', locals: { c: @comment }),
           model_id: @inst.id,
           model_name: @comment.commentable_type })
   end
-
 end
