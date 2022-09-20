@@ -20,6 +20,9 @@ gem 'aws-sdk-s3', require: false
 gem 'rack-cors'
 gem 'cocoon'
 gem 'with_model'
+gem 'omniauth'
+gem 'omniauth-github'
+gem "omniauth-rails_csrf_protection"
 
 gem 'action-cable-testing'
 

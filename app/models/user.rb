@@ -6,9 +6,19 @@ class User < ApplicationRecord
   has_many :rewards
   has_many :votes
   has_many :comments
+  has_many :authorizations, dependent: :destroy
 
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable
+         :recoverable, :rememberable, :validatable,
+         :omniauthable, omniauth_providers: [:github]
+
+  def self.find_for_oauth(auth)
+    Services::FindForOauth.new(auth).call
+  end
+
+  def create_authorization(auth)
+    user.authorizations.create(provider: auth.provider, uid: auth.uid)
+  end
 
 
   def author_of?(item)
