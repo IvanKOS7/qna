@@ -1,4 +1,5 @@
 require 'rails_helper'
+require "action_cable/testing/rspec"
 
 RSpec.describe AnswersController, type: :controller do
 
@@ -12,32 +13,38 @@ RSpec.describe AnswersController, type: :controller do
     let!(:question) { create(:question, :with_answers) }
     context 'with valid attr' do
       it 'saves a new answer in the db' do
-        expect { post :create, format: :js, params: { question_id: question.id, answer: attributes_for(:answer, author: user) } }.to change(Answer, :count).by(1)
+        expect { post :create, format: :json, params: { question_id: question.id, answer: attributes_for(:answer, author: user) } }.to change(Answer, :count).by(1)
       end
 
-      it 'redirect to show answer' do
-        post :create, format: :js, params: { question_id: question.id, answer: attributes_for(:answer, author: user) }
-        expect(response).to render_template :create
+      it 'render on page without redirect' do
+        post :create, format: :json, params: { question_id: question.id, answer: attributes_for(:answer, author: user) }
+        expect(response.body).to have_content(answer.body)
+      end
+
+      it 'have broadcast' do
+        expect { post :create, format: :json, params: { question_id: question.id, answer: attributes_for(:answer, author: user) } }.to have_broadcasted_to("answers_for_q_#{question.id}")
       end
     end
 
     context 'with invalid attr' do
       it 'NO saves a new question in the db' do
-        expect { post :create, format: :js, params: { question_id: question.id, answer: attributes_for(:answer, :invalid) } }.to_not change(Answer, :count)
+        expect { post :create, format: :json, params: { question_id: question.id, answer: attributes_for(:answer, :invalid) } }.to_not change(Answer, :count)
       end
 
       it 'redirect to show' do
-        post :create, format: :js, params: { question_id: question.id, answer: attributes_for(:answer, :invalid) }
+        post :create, format: :json, params: { question_id: question.id, answer: attributes_for(:answer, :invalid) }
         expect(response).to render_template :create
       end
     end
 
     context 'Author is logged in user' do
       it 'Author id == User id' do
-        post :create, format: :js, params: { question_id: question.id, answer: attributes_for(:answer, author: user) }
+        post :create, format: :json, params: { question_id: question.id, answer: attributes_for(:answer, author: user) }
         expect(assigns(:answer).user_id).to eq user.id
       end
     end
+
+
   end
 
   describe 'PATCH #update' do
@@ -96,6 +103,7 @@ RSpec.describe AnswersController, type: :controller do
         expect(response).to redirect_to answer.question
       end
     end
+
 
 
     context 'Stranger' do

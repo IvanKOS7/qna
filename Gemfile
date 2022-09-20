@@ -21,6 +21,8 @@ gem 'rack-cors'
 gem 'cocoon'
 gem 'with_model'
 
+gem 'action-cable-testing'
+
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]

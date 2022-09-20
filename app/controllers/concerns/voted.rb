@@ -7,7 +7,7 @@ module Voted
   end
 
   def add_points
-    if current_user&.voted?(@inst, @inst.class.to_s) && (current_user.author_of?(@inst))
+    if current_user&.voted?(@inst, @inst.class.to_s) && (!current_user.author_of?(@inst))
         vote = current_user.votes.where(votable_id: @inst.id).first
         vote.add_point if !current_user.vote_points_added?(@inst, @inst.class.to_s)
     else
@@ -21,7 +21,7 @@ module Voted
   end
 
   def low_points
-    if current_user&.voted?(@inst, @inst.class.to_s) && (current_user.author_of?(@inst))
+    if current_user&.voted?(@inst, @inst.class.to_s) && (!current_user.author_of?(@inst))
         vote = current_user.votes.where(votable_id: @inst.id).first
         vote.remove_point if !current_user.vote_points_removed?(@inst, @inst.class.to_s)
     else

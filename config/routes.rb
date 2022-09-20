@@ -5,14 +5,21 @@ Rails.application.routes.draw do
     patch :add_points
     patch :low_points
   end
+  concern :commentable do
+    resources :commentable
+  end
   resources :questions do
     resources :answers,
               shallow: true,
               only: [:create, :update, :destroy, :best] do
       post 'best'
       concerns :votable
+      resources :comments, only: [:create]
+
     end
     concerns :votable
+    resources :comments, only: [:create]
+
   end
 
   resources :attachments, only: [:purge_file] do
@@ -22,4 +29,6 @@ Rails.application.routes.draw do
   resources :links, only: [:destroy]
 
   root to: 'questions#index'
+
+  mount ActionCable.server => '/cable'
 end

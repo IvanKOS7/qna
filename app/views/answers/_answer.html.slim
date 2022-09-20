@@ -1,3 +1,4 @@
+
 div [id="answer-#{answer.id}"]
   .border.border-success
     p= answer.body
@@ -23,10 +24,16 @@ div [id="answer-#{answer.id}"]
             li= link_to 'delete link', link_path(link), method: :delete, remote: true
             - if link.gist?
               <script src="#{link.url}.js"></script>
-    - if user_signed_in?
+    - if current_user
+
+      = form_with url: answer_comments_path(answer, commentable_type: Answer, commentable_id: answer.id), local: false do |c|
+        = c.label :comment
+        = c.text_field :comment
+        = c.submit 'Comment!'
       - if current_user.author_of?(answer)
         p= link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
         p= link_to 'Delete answer', answer_path(answer), remote: true, method: :delete
+
       - if current_user.author_of?(answer.question) && !answer.best?
         p= button_to 'Mark as best', answer_best_path(answer.id)
     = form_with model: answer,
@@ -39,3 +46,5 @@ div [id="answer-#{answer.id}"]
       = f.file_field :files, multiple: true, direct_upload: true
 
       = f.submit 'Update'
+  - if answer.comments.any?
+    = render 'comments/comments', model: answer

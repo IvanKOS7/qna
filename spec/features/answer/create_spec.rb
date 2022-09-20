@@ -45,4 +45,29 @@ feature 'User can create answer for question', %q{
     visit question_path(question)
     expect(page).to_not have_content 'Answer the question'
   end
+
+  context 'multiple session' do
+    scenario 'answer appears on another users pages' do
+      Capybara.using_session('user') do
+        sign_in(user)
+        visit question_path
+      end
+
+      Capybara.using_session('guest') do
+        visit question_path
+      end
+
+      Capybara.using_session('user') do
+        click_on 'Ask question'
+        fill_in 'answer[body]', with: 'Test'
+        click_on 'Create'
+        expect(page).to have_content 'Test'
+      end
+
+      Capybara.using_session('guest') do
+        visit question_path
+        expect(page).to have_content 'Test'
+      end
+    end
+  end
 end

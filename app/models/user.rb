@@ -5,6 +5,7 @@ class User < ApplicationRecord
   has_many :questions, class_name: "Question", dependent: :destroy
   has_many :rewards
   has_many :votes
+  has_many :comments
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
