@@ -28,11 +28,6 @@ RSpec.describe Services::FindForOauth do
 
           expect(authorization.provider).to eq auth.provider
           expect(authorization.uid).to eq auth.uid
-
-        end
-
-        it 'returns the user' do
-
         end
       end
 
@@ -57,7 +52,6 @@ RSpec.describe Services::FindForOauth do
 
         it 'creates authorization with provider and uid' do
           authorization = subject.call.authorizations.first
-
         end
       end
     end

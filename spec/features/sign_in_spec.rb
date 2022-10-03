@@ -23,4 +23,34 @@ feature 'User can sign in', %q{
     click_on 'Log in'
     expect(page).to have_content 'Invalid Email or password'
   end
+
+  describe 'User tries to sign in with social networks' do
+     before { visit new_user_session_path }
+
+     describe 'with github' do
+       scenario 'page has sign in link' do
+         expect(page).to have_link 'Sign in with GitHub'
+       end
+
+       scenario 'user click  on sign in button' do
+         OmniAuth.config.add_mock(:github, { uid: '123', info: { email: 'test@mail.com' } })
+         click_on 'Sign in with GitHub'
+
+         expect(page).to have_content 'Successfully authenticated from Github account.'
+       end
+     end
+
+     describe 'with Yandex' do
+       scenario 'page has sign in link' do
+         expect(page).to have_link 'Sign in with Yandex'
+       end
+
+       scenario 'user clicks to sign button' do
+         OmniAuth.config.add_mock(:yandex, { uid: '123', info: { email: 'test2@mail.com' } })
+         click_on 'Sign in with Yandex'
+
+         expect(page).to have_content 'Successfully authenticated from Yandex account.'
+       end
+     end
+   end
 end

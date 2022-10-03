@@ -10,7 +10,7 @@ class User < ApplicationRecord
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
-         :omniauthable, omniauth_providers: [:github]
+         :omniauthable, omniauth_providers: [:github, :vkontakte, :yandex]
 
   def self.find_for_oauth(auth)
     Services::FindForOauth.new(auth).call
