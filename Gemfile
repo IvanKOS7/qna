@@ -25,7 +25,7 @@ gem 'omniauth-github'
 gem "omniauth-rails_csrf_protection"
 gem 'omniauth-vkontakte'
 gem "omniauth-yandex", :github => '/evrone/omniauth-yandex', branch: 'dependabot/bundler/omniauth-2.1.0'
-
+gem 'cancancan'
 
 
 group :development, :test do

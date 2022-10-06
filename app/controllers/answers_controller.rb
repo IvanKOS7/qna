@@ -3,12 +3,12 @@ class AnswersController < ApplicationController
 
   include Voted
 
-
   before_action :load_question, only: %i[create]
   before_action :find_answer, only: [:update, :destroy]
   before_action :load_answer, only: [:best]
   after_action :publish_answer, only: [:create]
 
+  authorize_resource
 
   def create
     @answer = @question.answers.create(answer_params)
