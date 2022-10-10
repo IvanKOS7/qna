@@ -8,7 +8,7 @@
       li= link_to 'delete link', link_path(link), method: :delete, remote: true
       - if link.gist?
           <script src="#{link.url}.js"></script>
-- if current_user && current_user.author_of?(@question)
+- if can? :edit, current_user, @question
   = link_to 'Edit question', edit_question_path(@question)
 .answer-errors
   = render 'shared/errors', resource: @answer

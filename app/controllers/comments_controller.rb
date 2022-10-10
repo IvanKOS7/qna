@@ -1,6 +1,7 @@
 class CommentsController < ApplicationController
 
   after_action :publish_comment, only: [:create]
+  authorize_resource
 
   def create
     @comment = current_user.comments.build(comment: params[:comment], commentable_type: params[:commentable_type], commentable_id: params[:commentable_id])
