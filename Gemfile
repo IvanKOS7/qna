@@ -26,7 +26,11 @@ gem "omniauth-rails_csrf_protection"
 gem 'omniauth-vkontakte'
 gem "omniauth-yandex", :github => '/evrone/omniauth-yandex', branch: 'dependabot/bundler/omniauth-2.1.0'
 gem 'cancancan'
-
+gem 'doorkeeper'
+#Serializer
+gem 'active_model_serializers', '~> 0.10'
+gem 'oj'
+##########
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
