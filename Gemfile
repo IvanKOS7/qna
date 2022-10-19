@@ -16,7 +16,7 @@ gem 'slim-rails'
 gem 'devise'
 gem "bootstrap"
 gem 'jquery-rails'
-gem 'aws-sdk-s3', require: false
+#gem 'aws-sdk-s3', require: false
 gem 'rack-cors'
 gem 'cocoon'
 gem 'with_model'

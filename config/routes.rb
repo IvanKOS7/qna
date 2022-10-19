@@ -6,8 +6,12 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :profiles, only: [] do
         get :me, on: :collection
+        get :index, on: :collection
       end
-      resources :questions, only: [:index]
+      resources :questions, only: [:index, :show, :create, :update, :destroy] do
+        member { resources :answers, only: [:create] }
+      end
+      resources :answers, only: [:show, :update, :destroy]
     end
   end
 
