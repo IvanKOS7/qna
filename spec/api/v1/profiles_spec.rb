@@ -18,9 +18,7 @@ describe 'Profiles API', type: :request do
                                                              "Authorization" => 'Bearer ' + access_token.token})
       end
 
-      it 'returns 200 status' do
-        expect(response).to be_successful
-      end
+      it_behaves_like 'API Successefuly Response'
 
       it 'returns all public fields' do
         %w[id email admin created_at updated_at].each do |attr|
@@ -51,9 +49,7 @@ describe 'Profiles API', type: :request do
                                                           "Authorization" => 'Bearer ' + access_token.token }
       end
 
-      it 'returns 200 status' do
-        expect(response).to be_successful
-      end
+      it_behaves_like 'API Successefuly Response'
 
       it 'returns user fields' do
         %w[id email admin created_at updated_at].each do |attr|

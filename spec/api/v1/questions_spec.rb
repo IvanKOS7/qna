@@ -23,9 +23,7 @@ describe 'Questions API', type: :request do
                                                              "Authorization" => 'Bearer ' + access_token.token}
       end
 
-      it 'returns 200 status' do
-        expect(response).to be_successful
-      end
+      it_behaves_like 'API Successefuly Response'
 
       it 'returns list of questions' do
         expect(json['questions'].size).to eq 3
@@ -105,7 +103,6 @@ describe 'Questions API', type: :request do
         post "/api/v1/questions/", params: { title: 'Test', body: 'Test7' }, headers:   {"ACCEPT" => 'application/json',
                                                                                          "Authorization" => 'Bearer ' + access_token.token }
 
-
        end
 
       it 'contains new question ' do
@@ -125,7 +122,6 @@ describe 'Questions API', type: :request do
       before do
         patch "/api/v1/questions/#{question.id}", params: { title: 'Title2', body: 'Body2' }, headers:   {"ACCEPT" => 'application/json',
                                                                                          "Authorization" => 'Bearer ' + access_token.token }
-
 
        end
 
@@ -147,8 +143,7 @@ describe 'Questions API', type: :request do
         delete "/api/v1/questions/#{question.id}", params: {}, headers:   {"ACCEPT" => 'application/json',
                                                                                          "Authorization" => 'Bearer ' + access_token.token }
 
-
-       end
+        end
 
       it 'question deleted' do
         expect(Question.all).to_not include :question
