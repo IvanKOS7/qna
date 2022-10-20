@@ -1,6 +1,6 @@
 class Api::V1::QuestionsController < Api::V1::BaseController
+  
   before_action :find_question, only: [:update, :destroy]
-
 
   def index
     @questions = Question.all
@@ -13,26 +13,29 @@ class Api::V1::QuestionsController < Api::V1::BaseController
   end
 
   def create
+    authorize! :create, @question
     question = Question.new(title: params[:title], body: params[:body])
     if question.save
-      render json: question
+      render json: @current_resource_owner
     else
-      render json: question.errors.full_messages
+      render json: @current_resource_owner
     end
   end
 
   def update
+    authorize! :create, @question
     @question.update(title: params[:title], body: params[:body])
     if @question.save
       render json: @question
     else
-      render json: @question.errors.full_messages
+      errors_handler(@question)
     end
   end
 
   def destroy
+    authorize! :create, @question
     if @question.destroy
-      head :ok
+      render json: :success
     end
   end
 

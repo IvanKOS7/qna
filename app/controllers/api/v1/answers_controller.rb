@@ -8,24 +8,27 @@ class Api::V1::AnswersController < Api::V1::BaseController
   end
 
   def create
-    @answer = @question.answers.new(body: params[:body])
+    authorize! :create, @answer
+    @answer = @question.answers.new(body: params[:body], user_id: current_resource_owner)
     if @answer.save
       render json: @answer
     else
-      render json: @answer.errors.full_messages
+      errors_handler(@answer)
     end
   end
 
   def update
+    authorize! :create, @answer
     @answer.update(body: params[:body])
     if @answer.save
       render json: @answer
     else
-      render json: @answer.errors.full_messages
+      errors_handler(@answer)
     end
   end
 
   def destroy
+    authorize! :create, @answer
     if @answer.destroy
       head :ok
     end
