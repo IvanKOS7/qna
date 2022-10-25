@@ -16,8 +16,15 @@ class Question < ApplicationRecord
   has_one :reward, dependent: :destroy
   accepts_nested_attributes_for :reward, reject_if: :all_blank
 
+  after_create :calculate_reputation
 
   def mark_as_best(answer)
-		update(best_answer_id: answer.id)
+    update(best_answer_id: answer.id)
 	end
+
+  private
+
+  def calculate_reputation
+    ReputationJob.perform_later(self)
+  end
 end
