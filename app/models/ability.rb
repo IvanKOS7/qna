@@ -27,5 +27,7 @@ class Ability
     can :create, [Question, Answer, Comment], user_id: user.id
     can :update, [Question, Answer], user_id: user.id
     can :edit, [Question, Answer], user_id: user.id
+    can :subscribe, [Question], user_id: user.id
+    can :unsubscribe, [Question], user_id: user.id
   end
 end

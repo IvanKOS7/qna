@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_10_17_123137) do
+ActiveRecord::Schema.define(version: 2022_10_29_121355) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -70,6 +70,19 @@ ActiveRecord::Schema.define(version: 2022_10_17_123137) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["linkable_type", "linkable_id"], name: "index_links_on_linkable_type_and_linkable_id"
+  end
+
+  create_table "mailkick_opt_outs", force: :cascade do |t|
+    t.string "email"
+    t.string "user_type"
+    t.bigint "user_id"
+    t.boolean "active", default: true, null: false
+    t.string "reason"
+    t.string "list"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["email"], name: "index_mailkick_opt_outs_on_email"
+    t.index ["user_type", "user_id"], name: "index_mailkick_opt_outs_on_user_type_and_user_id"
   end
 
   create_table "oauth_access_grants", force: :cascade do |t|
@@ -134,6 +147,14 @@ ActiveRecord::Schema.define(version: 2022_10_17_123137) do
     t.index ["user_id"], name: "index_rewards_on_user_id"
   end
 
+  create_table "subscriptions", force: :cascade do |t|
+    t.string "state", default: "created", null: false
+    t.bigint "question_id"
+    t.bigint "user_id"
+    t.index ["question_id"], name: "index_subscriptions_on_question_id"
+    t.index ["user_id"], name: "index_subscriptions_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -143,8 +164,10 @@ ActiveRecord::Schema.define(version: 2022_10_17_123137) do
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
     t.boolean "admin"
+    t.bigint "subscription_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+    t.index ["subscription_id"], name: "index_users_on_subscription_id"
   end
 
   create_table "votes", force: :cascade do |t|
@@ -163,4 +186,5 @@ ActiveRecord::Schema.define(version: 2022_10_17_123137) do
   add_foreign_key "oauth_access_tokens", "oauth_applications", column: "application_id"
   add_foreign_key "rewards", "questions"
   add_foreign_key "rewards", "users"
+  add_foreign_key "subscriptions", "questions"
 end

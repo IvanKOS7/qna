@@ -1,12 +1,14 @@
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
+
   has_many :answers, class_name: "Answer", dependent: :destroy
   has_many :questions, class_name: "Question", dependent: :destroy
   has_many :rewards
   has_many :votes
   has_many :comments
   has_many :authorizations, dependent: :destroy
+  has_many :subscriptions
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
@@ -35,5 +37,13 @@ class User < ApplicationRecord
 
   def vote_points_removed?(item, type)
     self.votes.where(votable_id: item.id, points: -1, votable_type: type).count > 0
+  end
+
+  def self.subscribed_on(question)
+    question.subscription.users
+  end
+
+  def subscribed?(question)
+    question.subscription.users.include?(self)
   end
 end

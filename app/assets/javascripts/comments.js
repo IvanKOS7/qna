@@ -1,8 +1,6 @@
 var App = App = {}
 App.cable = ActionCable.createConsumer()
 
-
-
 App.cable.subscriptions.create('CommentsChannel', {
   connected: function() {
     var q = window.location.pathname.split('/')[2];

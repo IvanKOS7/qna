@@ -1,5 +1,9 @@
 .question
   h1= question.title
+  - if current_user&.subscribed?(@question)
+      p= link_to 'Unsubscribe', question_unsubscribe_path(@question)
+  - else
+      p= link_to 'Subscribe', question_subscribe_path(@question)
   p= question.body
   p= question.author.email
   .vote

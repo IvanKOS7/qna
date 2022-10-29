@@ -3,6 +3,7 @@ class QuestionsController < ApplicationController
 
   before_action :authenticate_user!, except: [:index, :show]
   before_action :load_question, only: [:show, :edit, :update, :destroy]
+  before_action :find_question, only: [:subscribe, :unsubscribe]
   after_action :publish_question, only: [:create]
 
   authorize_resource
@@ -55,6 +56,16 @@ class QuestionsController < ApplicationController
     redirect_to questions_path
   end
 
+  def subscribe
+    @question.subscription.users.append(current_user)
+    redirect_to @question, notice: 'Your subscription is running'
+  end
+
+  def unsubscribe
+    @question.subscription.users.delete(current_user)
+    redirect_to @question, notice: 'Your subscription is canceled'
+  end
+
   private
 
   def publish_question
@@ -65,6 +76,10 @@ class QuestionsController < ApplicationController
           partial: 'questions/short_question',
           locals: { q: @question }
         ))
+  end
+
+  def find_question
+    @question = Question.find(params[:question_id])
   end
 
   def load_question

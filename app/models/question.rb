@@ -16,15 +16,28 @@ class Question < ApplicationRecord
   has_one :reward, dependent: :destroy
   accepts_nested_attributes_for :reward, reject_if: :all_blank
 
-  after_create :calculate_reputation
+  after_create :calculate_reputation, :create_subscription
+  has_one :subscription, dependent: :destroy
+
+  scope :questions_from_the_last_day, -> { where("created_at > ?", Date.today - 1.day) }
 
   def mark_as_best(answer)
     update(best_answer_id: answer.id)
 	end
 
+  def find_user
+    User.find(self.author.id)
+  end
+
   private
 
   def calculate_reputation
     ReputationJob.perform_later(self)
+  end
+
+  def create_subscription
+    subscription = Subscription.create(question_id: self.id)
+    save
+    subscription.users.push(self.author)
   end
 end
