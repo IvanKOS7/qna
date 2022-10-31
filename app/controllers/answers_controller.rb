@@ -16,6 +16,7 @@ class AnswersController < ApplicationController
 
     respond_to do |format|
       if @answer.save
+        NotificationJob.perform_later(@answer)
         format.json { render json: @answer }
       else
         format.json { render json: @answer.errors.full_messages, status: :unprocessable_entity }

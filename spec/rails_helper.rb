@@ -35,6 +35,7 @@ rescue ActiveRecord::PendingMigrationError => e
   exit 1
 end
 RSpec.configure do |config|
+  config.include ActiveJob::TestHelper
   config.include ActionCable::TestHelper
   config.extend WithModel
   config.include FeatureHelpers, type: :feature

@@ -2,7 +2,8 @@ require "active_support/core_ext/integer/time"
 
 Rails.application.configure do
 
-
+   config.action_mailer.delivery_method = :letter_opener
+   config.action_mailer.perform_deliveries = true
    config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
   # Settings specified here will take precedence over those in config/application.rb.
 
@@ -61,6 +62,8 @@ Rails.application.configure do
 
   # Suppress logger output for asset requests.
   config.assets.quiet = true
+
+  config.cache_store = :redis_cache_store, { url: ENV.fetch("REDIS_URL_CACHING", "redis://localhost:6379/0") }
 
   # Raises error for missing translations.
   # config.i18n.raise_on_missing_translations = true
