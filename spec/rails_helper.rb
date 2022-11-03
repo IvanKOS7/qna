@@ -2,6 +2,8 @@
 require 'spec_helper'
 require 'with_model'
 require 'cancan/matchers'
+require 'database_cleaner/active_record'
+
 ENV['RAILS_ENV'] ||= 'test'
 
 require File.expand_path('../config/environment', __dir__)

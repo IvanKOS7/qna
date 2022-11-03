@@ -1,0 +1,10 @@
+= form_tag("/search", method: "post") do
+  = label_tag(:query)
+  = text_field_tag(:query)
+  = submit_tag("Search")
+  = label_tag :scope
+  = select_tag :scope, options_for_select([%w(All thinking_sphinx),
+                                        %w(Question question),
+                                        %w(Answer answer),
+                                        %w(Comment comment),
+                                        %w(User user)])

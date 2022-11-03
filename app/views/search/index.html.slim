@@ -1,0 +1,5 @@
+h1 Search#index
+p Find me in app/views/search/index.html.slim
+= render 'search/form'
+= unless @items.nil? || @items.empty?
+  = render 'search/items'

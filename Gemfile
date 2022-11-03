@@ -36,6 +36,9 @@ gem 'sidekiq'
 gem 'sinatra', require: false
 gem 'whenever', require: false
 gem 'aasm'
+gem 'mysql2'
+gem 'jdbc-mysql',      '~> 5.1.35', :platform => :jruby
+gem 'thinking-sphinx', '~> 5.3'
 
 
 group :development, :test do
@@ -44,6 +47,7 @@ group :development, :test do
   gem 'factory_bot_rails'
   gem 'action-cable-testing'
   gem 'faker'
+  gem 'database_cleaner'
 end
 
 group :development do
