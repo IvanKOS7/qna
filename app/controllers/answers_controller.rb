@@ -1,10 +1,10 @@
+# frozen_string_literal: true
 
 class AnswersController < ApplicationController
-
   include Voted
 
   before_action :load_question, only: %i[create]
-  before_action :find_answer, only: [:update, :destroy]
+  before_action :find_answer, only: %i[update destroy]
   before_action :load_answer, only: [:best]
   after_action :publish_answer, only: [:create]
 
@@ -34,9 +34,7 @@ class AnswersController < ApplicationController
   end
 
   def best
-    if @answer.mark_as_best
-      redirect_to @answer.question, notice: 'New best answer!'
-    end
+    redirect_to @answer.question, notice: 'New best answer!' if @answer.mark_as_best
   end
 
   private
@@ -46,10 +44,10 @@ class AnswersController < ApplicationController
 
     ActionCable.server.broadcast(
       "answers_for_q_#{@answer.question.id}",
-      { body: ApplicationController.render(partial: 'answers/answer',locals: { answer: @answer, current_user: current_user }),
-        question_id: @answer.question_id })
+      { body: ApplicationController.render(partial: 'answers/answer', locals: { answer: @answer, current_user: current_user }),
+        question_id: @answer.question_id }
+    )
   end
-
 
   def load_question
     @question = Question.find(params[:question_id])
@@ -64,6 +62,6 @@ class AnswersController < ApplicationController
   end
 
   def answer_params
-    params.require(:answer).permit(:body, files: [], links_attributes: [:name, :url])
+    params.require(:answer).permit(:body, files: [], links_attributes: %i[name url])
   end
 end

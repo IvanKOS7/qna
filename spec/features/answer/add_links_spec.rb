@@ -1,11 +1,10 @@
 require 'rails_helper'
 
-feature 'User can add links to answer', %q{
+feature 'User can add links to answer', "
   In order to provide additional info to my answer
   As an question author
   I'd like to be able to add links
-} do
-
+" do
   given(:user) { create(:user) }
   given!(:question) { create(:question) }
   given(:link_url) { 'https://www.google.com/' }
@@ -25,5 +24,4 @@ feature 'User can add links to answer', %q{
       expect(page).to have_link 'Link name', href: link_url
     end
   end
-
 end

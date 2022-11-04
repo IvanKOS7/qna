@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :comment do
-    comment { "MyComment" }
+    comment { 'MyComment' }
 
     trait :invalid do
       comment { nil }

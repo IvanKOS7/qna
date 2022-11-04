@@ -5,7 +5,6 @@ RSpec.describe NotificationJob, type: :job do
   let(:question) { create(:question, author: user) }
   let(:service) { double('AnswersController') }
 
-
   before do
     perform_enqueued_jobs do
       allow(service).to receive(:create).with(author: user, question_id: question.id).and_return(service)

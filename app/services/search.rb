@@ -1,22 +1,15 @@
-class Services::Search
-   SCOPES = %w[thinking_sphinx user comment question answer].freeze
+# frozen_string_literal: true
 
-   attr_accessor :items, :meta_hash
+module Services
+  class Search
+    SCOPES = %w[thinking_sphinx user comment question answer].freeze
 
-   def initialize
-     @meta = meta
-     @items = items
-   end
+    def self.call(query)
+      return unless SCOPES.include?(query['scope'])
 
-   def call(query)
-     return unless SCOPES.include?(query['scope'])
-     escaped_query = ThinkingSphinx::Query.escape(query['query'])
-     klass = query['scope'].classify.constantize
-     self.items = klass.search(escaped_query)
-     # meta
-   end
-
-   def meta
-     # self.meta_hash = ThinkingSphinx.search.meta.to_h
-   end
- end
+      escaped_query = ThinkingSphinx::Query.escape(query['query'])
+      klass = query['scope'].classify.constantize
+      klass.search(escaped_query)
+    end
+  end
+end

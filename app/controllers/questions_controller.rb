@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 class QuestionsController < ApplicationController
   include Voted
 
-  before_action :authenticate_user!, except: [:index, :show]
-  before_action :load_question, only: [:show, :edit, :update, :destroy]
-  before_action :find_question, only: [:subscribe, :unsubscribe]
+  before_action :authenticate_user!, except: %i[index show]
+  before_action :load_question, only: %i[show edit update destroy]
+  before_action :find_question, only: %i[subscribe unsubscribe]
   after_action :publish_question, only: [:create]
 
   authorize_resource
@@ -50,9 +52,7 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
-    if current_user.author_of?(@question)
-      @question.destroy
-    end
+    @question.destroy if current_user.author_of?(@question)
     redirect_to questions_path
   end
 
@@ -70,12 +70,14 @@ class QuestionsController < ApplicationController
 
   def publish_question
     return if @question.errors.any?
+
     ActionCable.server.broadcast(
       'questions',
       ApplicationController.render(
-          partial: 'questions/short_question',
-          locals: { q: @question }
-        ))
+        partial: 'questions/short_question',
+        locals: { q: @question }
+      )
+    )
   end
 
   def find_question
@@ -87,6 +89,6 @@ class QuestionsController < ApplicationController
   end
 
   def question_params
-    params.require(:question).permit(:title, :body, files: [], links_attributes: [:name, :url])
+    params.require(:question).permit(:title, :body, files: [], links_attributes: %i[name url])
   end
 end

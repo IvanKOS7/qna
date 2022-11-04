@@ -1,10 +1,11 @@
-
 require 'rails_helper'
 require 'logger'
 
 describe 'Questions API', type: :request do
-  let(:headers) { { "CONTENT_TYPE" => 'application/json',
-                    "ACCEPT" => 'application/json'} }
+  let(:headers) do
+    { 'CONTENT_TYPE' => 'application/json',
+      'ACCEPT' => 'application/json' }
+  end
   describe 'GET /api/v1/questions' do
     it_behaves_like 'API Authorizable' do
       let(:api_path) { '/api/v1/profiles/me' }
@@ -18,9 +19,9 @@ describe 'Questions API', type: :request do
       let(:question_response) { json['questions'].first }
       let!(:answers) { create_list(:answer, 3, question: question) }
       before do
-        get '/api/v1/questions', params: {}, headers:   { "CONTENT_TYPE" => 'application/json',
-                                                             "ACCEPT" => 'application/json',
-                                                             "Authorization" => 'Bearer ' + access_token.token}
+        get '/api/v1/questions', params: {}, headers:   { 'CONTENT_TYPE' => 'application/json',
+                                                          'ACCEPT' => 'application/json',
+                                                          'Authorization' => 'Bearer ' + access_token.token }
       end
 
       it_behaves_like 'API Successefuly Response'
@@ -72,11 +73,10 @@ describe 'Questions API', type: :request do
       let(:link) { create(:link, question: question) }
       let(:file) { create(:file, question: question) }
       before do
-        get "/api/v1/questions/#{question.id}", params: {}, headers:   { "CONTENT_TYPE" => 'application/json',
-                                                             "ACCEPT" => 'application/json',
-                                                             "Authorization" => 'Bearer ' + access_token.token}
+        get "/api/v1/questions/#{question.id}", params: {}, headers:   { 'CONTENT_TYPE' => 'application/json',
+                                                                         'ACCEPT' => 'application/json',
+                                                                         'Authorization' => 'Bearer ' + access_token.token }
       end
-
 
       it 'contains questiion fields' do
         %w[id title body user_id created_at updated_at].each do |attr|
@@ -100,10 +100,9 @@ describe 'Questions API', type: :request do
       let!(:access_token) { create(:access_token) }
 
       before do
-        post "/api/v1/questions/", params: { title: 'Test', body: 'Test7' }, headers:   {"ACCEPT" => 'application/json',
-                                                                                         "Authorization" => 'Bearer ' + access_token.token }
-
-       end
+        post '/api/v1/questions/', params: { title: 'Test', body: 'Test7' }, headers:   { 'ACCEPT' => 'application/json',
+                                                                                          'Authorization' => 'Bearer ' + access_token.token }
+      end
 
       it 'contains new question ' do
         expect(json['question']['id']).to eq Question.all.first.id
@@ -111,7 +110,7 @@ describe 'Questions API', type: :request do
     end
 
     describe 'PATCH /api/v1/questions/:id' do
-      let!(:question) {create(:question)}
+      let!(:question) { create(:question) }
       it_behaves_like 'API Authorizable' do
         let!(:api_path) { '/api/v1/questions/:id' }
         let!(:method) { :patch }
@@ -120,10 +119,9 @@ describe 'Questions API', type: :request do
       let!(:access_token) { create(:access_token) }
 
       before do
-        patch "/api/v1/questions/#{question.id}", params: { title: 'Title2', body: 'Body2' }, headers:   {"ACCEPT" => 'application/json',
-                                                                                         "Authorization" => 'Bearer ' + access_token.token }
-
-       end
+        patch "/api/v1/questions/#{question.id}", params: { title: 'Title2', body: 'Body2' }, headers:   { 'ACCEPT' => 'application/json',
+                                                                                                           'Authorization' => 'Bearer ' + access_token.token }
+      end
 
       it 'return question with new params' do
         expect(json['question']['title']).to eq 'Title2'
@@ -131,7 +129,7 @@ describe 'Questions API', type: :request do
     end
 
     describe 'DELETE /api/v1/questions/:id' do
-      let!(:question) {create(:question)}
+      let!(:question) { create(:question) }
       it_behaves_like 'API Authorizable' do
         let!(:api_path) { '/api/v1/questions/:id' }
         let!(:method) { :delete }
@@ -140,10 +138,9 @@ describe 'Questions API', type: :request do
       let!(:access_token) { create(:access_token) }
 
       before do
-        delete "/api/v1/questions/#{question.id}", params: {}, headers:   {"ACCEPT" => 'application/json',
-                                                                                         "Authorization" => 'Bearer ' + access_token.token }
-
-        end
+        delete "/api/v1/questions/#{question.id}", params: {}, headers:   { 'ACCEPT' => 'application/json',
+                                                                            'Authorization' => 'Bearer ' + access_token.token }
+      end
 
       it 'question deleted' do
         expect(Question.all).to_not include :question

@@ -39,6 +39,7 @@ gem 'aasm'
 gem 'mysql2'
 gem 'jdbc-mysql',      '~> 5.1.35', :platform => :jruby
 gem 'thinking-sphinx', '~> 5.3'
+gem 'rubocop-rails', require: false
 
 
 group :development, :test do

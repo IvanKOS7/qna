@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
 
-  has_many :answers, class_name: "Answer", dependent: :destroy
-  has_many :questions, class_name: "Question", dependent: :destroy
+  has_many :answers, class_name: 'Answer', dependent: :destroy
+  has_many :questions, class_name: 'Question', dependent: :destroy
   has_many :rewards
   has_many :votes
   has_many :comments
@@ -12,7 +14,7 @@ class User < ApplicationRecord
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
-         :omniauthable, omniauth_providers: [:github, :vkontakte, :yandex]
+         :omniauthable, omniauth_providers: %i[github vkontakte yandex]
 
   def self.find_for_oauth(auth)
     Services::FindForOauth.new(auth).call
@@ -22,21 +24,20 @@ class User < ApplicationRecord
     user.authorizations.create(provider: auth.provider, uid: auth.uid)
   end
 
-
   def author_of?(item)
-    !item.author.nil? && (item.author.id == self.id)
+    !item.author.nil? && (item.author.id == id)
   end
 
   def voted?(item, type)
-    self.votes.where(votable_id: item.id, votable_type: type).count > 0
+    votes.where(votable_id: item.id, votable_type: type).count.positive?
   end
 
   def vote_points_added?(item, type)
-     self.votes.where(votable_id: item.id, points: 1, votable_type: type).count > 0
+    votes.where(votable_id: item.id, points: 1, votable_type: type).count.positive?
   end
 
   def vote_points_removed?(item, type)
-    self.votes.where(votable_id: item.id, points: -1, votable_type: type).count > 0
+    votes.where(votable_id: item.id, points: -1, votable_type: type).count.positive?
   end
 
   def self.subscribed_on(question)

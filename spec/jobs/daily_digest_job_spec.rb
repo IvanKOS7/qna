@@ -5,7 +5,6 @@ RSpec.describe DailyDigestJob, type: :job do
   let(:question) { create(:question) }
   let(:user) { create(:user) }
 
-
   before do
     allow(Services::DailyDigest).to receive(:new).and_return(service)
   end

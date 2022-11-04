@@ -1,139 +1,135 @@
 require 'sphinx_helper'
 require 'rails_helper'
 
-
- feature 'Search', %q{
+feature 'Search', '
    In order to be able to find items
    As user
    I want be able to search in resources
- } do
+ ' do
+  given!(:questions) { create_list :question, 2 }
+  given!(:question) { create(:question) }
+  given(:user) { create(:user) }
+  given!(:users) { create_list(:user, 2) }
+  given!(:answer) { create(:answer) }
+  given!(:answers) { create_list(:answer, 2) }
+  given!(:comment) { create(:comment, commentable: question, user_id: user.id) }
+  given(:comments) { create_list(:comment, 2, commentable: question, user_id: user.id) }
 
-   given!(:questions) { create_list :question, 2 }
-   given!(:question) { create(:question) }
-   given(:user) { create(:user) }
-   given!(:users) { create_list(:user, 2)}
-   given!(:answer) { create(:answer) }
-   given!(:answers) { create_list(:answer, 2)}
-   given!(:comment) { create(:comment, commentable: question, user_id: user.id) }
-   given(:comments) { create_list(:comment, 2, commentable: question, user_id: user.id) }
+  describe 'Search', sphinx: true do
+    scenario 'question' do
+      visit root_path
+      fill_in 'Query', with: question.title
+      select 'Question', from: 'scope'
+      click_on 'Search'
 
-   describe 'Search', sphinx: true do
+      expect(page).to have_content question.title
 
-     scenario 'question' do
-         visit root_path
-         fill_in 'Query', with: question.title
-         select 'Question', from: 'scope'
-         click_on 'Search'
+      answers.each do |answer|
+        expect(page).to_not have_content answer.body
+      end
 
-         expect(page).to have_content question.title
+      comments.each do |comment|
+        expect(page).to_not have_content comment.comment
+      end
 
-         answers.each do |answer|
-           expect(page).to_not have_content answer.body
-         end
+      users.each do |user|
+        expect(page).to_not have_content user.email
+      end
+    end
 
-         comments.each do |comment|
-           expect(page).to_not have_content comment.comment
-         end
+    scenario 'answer' do
+      visit root_path
+      fill_in 'Query', with: answer.body
+      select 'Answer', from: 'scope'
+      click_on 'Search'
 
-         users.each do |user|
-           expect(page).to_not have_content user.email
-         end
-     end
+      expect(page).to have_content answer.body
 
-     scenario 'answer' do
-         visit root_path
-         fill_in 'Query', with: answer.body
-         select 'Answer', from: 'scope'
-         click_on 'Search'
+      answers.each do |answer|
+        expect(page).to_not have_content answer.body
+      end
 
+      questions.each do |question|
+        expect(page).to_not have_content question.title
+      end
 
-         expect(page).to have_content answer.body
+      comments.each do |comment|
+        expect(page).to_not have_content comment.body
+      end
 
-         answers.each do |answer|
-           expect(page).to_not have_content answer.body
-         end
+      users.each do |user|
+        expect(page).to_not have_content user.email
+      end
+    end
 
-         questions.each do |question|
-           expect(page).to_not have_content question.title
-         end
+    scenario 'comment' do
+      visit root_path
+      fill_in 'Query', with: comment.comment
+      select 'Comment', from: 'scope'
+      click_on 'Search'
 
-         comments.each do |comment|
-           expect(page).to_not have_content comment.body
-         end
+      expect(page).to have_content comment.comment
 
-         users.each do |user|
-           expect(page).to_not have_content user.email
-         end
-     end
+      comments.each do |comment|
+        expect(page).to_not have_content comment.comment
+      end
 
-     scenario 'comment' do
-         visit root_path
-         fill_in 'Query', with: comment.comment
-         select 'Comment', from: 'scope'
-         click_on 'Search'
+      questions.each do |question|
+        expect(page).to_not have_content question.title
+      end
 
-         expect(page).to have_content comment.comment
+      answers.each do |answer|
+        expect(page).to_not have_content answer.body
+      end
 
-         comments.each do |comment|
-           expect(page).to_not have_content comment.comment
-         end
+      users.each do |user|
+        expect(page).to_not have_content user.email
+      end
+    end
 
-         questions.each do |question|
-           expect(page).to_not have_content question.title
-         end
+    scenario 'user' do
+      visit root_path
+      fill_in 'Query', with: user.email
+      select 'User', from: 'scope'
+      sleep(0.5)
+      click_on 'Search'
 
-         answers.each do |answer|
-           expect(page).to_not have_content answer.body
-         end
+      expect(page).to have_content user.email
 
-         users.each do |user|
-           expect(page).to_not have_content user.email
-         end
-     end
+      users.each do |user|
+        expect(page).to_not have_content user.email
+      end
 
-     scenario 'user' do
-       visit root_path
-       fill_in 'Query', with: user.email
-       select 'User', from: 'scope'
-       sleep(0.5)
-       click_on 'Search'
+      questions.each do |question|
+        expect(page).to_not have_content question.title
+      end
 
-       expect(page).to have_content user.email
+      answers.each do |answer|
+        expect(page).to_not have_content answer.body
+      end
 
-       users.each do |user|
-         expect(page).to_not have_content user.email
-       end
+      comments.each do |comment|
+        expect(page).to_not have_content comment.body
+      end
+    end
 
-       questions.each do |question|
-         expect(page).to_not have_content question.title
-       end
+    scenario 'all indicies' do
+      visit root_path
+      fill_in 'Query', with: question.body
+      select 'All', from: 'scope'
 
-       answers.each do |answer|
-         expect(page).to_not have_content answer.body
-       end
+      click_on 'Search'
+      sleep(0.5)
 
-       comments.each do |comment|
-         expect(page).to_not have_content comment.body
-       end
-     end
+      expect(page).to have_content question.body
 
-     scenario 'all indicies' do
-       visit root_path
-       fill_in 'Query', with: question.body
-       select 'All', from: 'scope'
+      users.each do |_user|
+        expect(page).to_not have_content question.body
+      end
 
-       click_on 'Search'
-       sleep(0.5)
-
-       expect(page).to have_content question.body
-
-       users.each do |user|
-         expect(page).to_not have_content question.body
-       end
-
-       questions.each do |question|
-         expect(page).to_not have_content user.email
-       end
-     end
-   end
- end
+      questions.each do |_question|
+        expect(page).to_not have_content user.email
+      end
+    end
+  end
+end

@@ -25,7 +25,7 @@ RSpec.describe SearchController, type: :controller do
     context 'with invalid attributes' do
       before { get :index, params: { query: '' } }
 
-      it "render index" do
+      it 'render index' do
         expect(response).to render_template :index
       end
     end
