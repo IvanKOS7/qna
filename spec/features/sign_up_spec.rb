@@ -1,11 +1,10 @@
 require 'rails_helper'
 
-feature 'User can sign up', %q{
+feature 'User can sign up', "
   In order to ask questions and answer the questions
   As on unregistered user
   I'd like to be able to sign up
-} do
-
+" do
   given(:user) { create(:user) }
   background { visit new_user_registration_path }
 
@@ -14,7 +13,7 @@ feature 'User can sign up', %q{
     fill_in 'Password', with: '123456'
     fill_in 'Password confirmation', with: '123456'
     click_on 'Sign up'
-    expect(page).to have_content "Welcome! You have signed up successfully."
+    expect(page).to have_content 'Welcome! You have signed up successfully.'
   end
 
   scenario 'Registered user tries to sign in' do
@@ -24,5 +23,4 @@ feature 'User can sign up', %q{
     click_on 'Sign up'
     expect(page).to have_content 'Email has already been taken'
   end
-
 end

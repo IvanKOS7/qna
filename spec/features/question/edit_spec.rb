@@ -1,10 +1,10 @@
 require 'rails_helper'
 
-feature 'User can edit question', %q{
+feature 'User can edit question', '
   To fix mistakes
   Both on authenticated user and author
   I would like to be able to edit the question
-} do
+' do
   given(:user) { create(:user) }
   given(:question) { create(:question, author: user) }
 
@@ -23,7 +23,7 @@ feature 'User can edit question', %q{
 
     scenario 'User can delete file from his question', js: true do
       click_on 'Edit question'
-      attach_file "question[files][]", ["#{Rails.root}/spec/rails_helper.rb"]
+      attach_file 'question[files][]', ["#{Rails.root}/spec/rails_helper.rb"]
       click_on 'Update'
       expect(page).to have_link 'rails_helper.rb'
 
@@ -31,8 +31,6 @@ feature 'User can edit question', %q{
       click_on 'Delete file'
       expect(page).to_not have_link 'rails_helper.rb'
     end
-
-
   end
 
   describe 'User is not author_of question' do

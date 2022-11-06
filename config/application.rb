@@ -26,8 +26,11 @@ module Qna
                        helper_specs: false,
                        routing_specs: false,
                        request_specs: false
+
    end
 
    config.active_job.queue_adapter = :sidekiq
+   config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}')]
+   config.i18n.default_locale = :en
   end
 end

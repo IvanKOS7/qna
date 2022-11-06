@@ -39,8 +39,8 @@ ActiveRecord::Schema.define(version: 2022_10_29_121355) do
   create_table "answers", force: :cascade do |t|
     t.string "body", null: false
     t.bigint "question_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.bigint "user_id"
     t.index ["question_id"], name: "index_answers_on_question_id"
     t.index ["user_id"], name: "index_answers_on_user_id"
@@ -70,19 +70,6 @@ ActiveRecord::Schema.define(version: 2022_10_29_121355) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["linkable_type", "linkable_id"], name: "index_links_on_linkable_type_and_linkable_id"
-  end
-
-  create_table "mailkick_opt_outs", force: :cascade do |t|
-    t.string "email"
-    t.string "user_type"
-    t.bigint "user_id"
-    t.boolean "active", default: true, null: false
-    t.string "reason"
-    t.string "list"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["email"], name: "index_mailkick_opt_outs_on_email"
-    t.index ["user_type", "user_id"], name: "index_mailkick_opt_outs_on_user_type_and_user_id"
   end
 
   create_table "oauth_access_grants", force: :cascade do |t|
@@ -130,8 +117,8 @@ ActiveRecord::Schema.define(version: 2022_10_29_121355) do
   create_table "questions", force: :cascade do |t|
     t.string "title"
     t.text "body"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.bigint "user_id"
     t.string "best_answer_id"
     t.index ["user_id"], name: "index_questions_on_user_id"
@@ -156,8 +143,8 @@ ActiveRecord::Schema.define(version: 2022_10_29_121355) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"

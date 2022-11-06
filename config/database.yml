@@ -8,7 +8,9 @@ development:
   <<: *default
   database: db/tn_qna_development
   host: 'localhost'
-  port: 5433
+  port: 5432
+  user: <%= ENV.fetch("USER")%>
+  password: <%= ENV.fetch("S_PAS")%>
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
@@ -17,4 +19,6 @@ test:
   <<: *default
   database: db/tn_qna_test
   host: 'localhost'
-  port: 5433
+  port: 5432
+  user: <%= ENV.fetch("USER")%>
+  password: <%= ENV.fetch("S_PAS")%>

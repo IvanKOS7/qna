@@ -1,18 +1,15 @@
-
 require 'rails_helper'
 
-feature 'User can create answer for question', %q{
+feature 'User can create answer for question', '
   In order to help other users with questions
   As an authenticated user
   I want to be able to create new answer
-} do
-
+' do
   given(:user) { create(:user) }
   given(:question) { create(:question, author: user) }
   given!(:answer) { create(:answer, question: question) }
 
   describe 'Authenticated user', js: true do
-
     background do
       sign_in(user)
       visit question_path(question)
@@ -33,7 +30,7 @@ feature 'User can create answer for question', %q{
 
     scenario 'answer with attached file' do
       fill_in 'answer[body]', with: 'Test'
-      attach_file "answer[files][]", ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
+      attach_file 'answer[files][]', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
 
       click_on 'Create'
       expect(page).to have_link 'rails_helper.rb'
@@ -41,7 +38,7 @@ feature 'User can create answer for question', %q{
     end
   end
 
-  scenario 'Non authenticated user can not create answer', js:true do
+  scenario 'Non authenticated user can not create answer', js: true do
     visit question_path(question)
     expect(page).to_not have_content 'Answer the question'
   end

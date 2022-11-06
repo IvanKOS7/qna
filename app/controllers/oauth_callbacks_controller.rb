@@ -1,14 +1,16 @@
+# frozen_string_literal: true
+
 class OauthCallbacksController < Devise::OmniauthCallbacksController
   def github
-    authenticate("Github")
+    authenticate('Github')
   end
 
   def vkontakte
-    authenticate("VK")
+    authenticate('VK')
   end
 
   def yandex
-    authenticate("Yandex")
+    authenticate('Yandex')
   end
 
   def authenticate(provider)

@@ -1,12 +1,11 @@
 FactoryBot.define do
-
   sequence :title do |n|
     "MyString#{n}"
   end
 
   factory :question do
     title
-    body { "MyText" }
+    body { 'MyText' }
     author { build(:user) }
     trait :invalid do
       title { nil }
@@ -21,5 +20,4 @@ FactoryBot.define do
       create_list(:answer, 3, :with_author, question_id: q.id)
     end
   end
-
 end

@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 class Question < ApplicationRecord
   include Votable
   include Commentable
 
-  belongs_to :author, class_name: "User", foreign_key: 'user_id'
+  belongs_to :author, class_name: 'User', foreign_key: 'user_id'
   belongs_to :best_answer, class_name: 'Answer'
 
   has_many :answers, dependent: :destroy
@@ -19,14 +21,14 @@ class Question < ApplicationRecord
   after_create :calculate_reputation, :create_subscription
   has_one :subscription, dependent: :destroy
 
-  scope :questions_from_the_last_day, -> { where("created_at > ?", Date.today - 1.day) }
+  scope :questions_from_the_last_day, -> { where('created_at > ?', Date.today - 1.day) }
 
   def mark_as_best(answer)
     update(best_answer_id: answer.id)
-	end
+  end
 
   def find_user
-    User.find(self.author.id)
+    User.find(author.id)
   end
 
   private
@@ -36,8 +38,8 @@ class Question < ApplicationRecord
   end
 
   def create_subscription
-    subscription = Subscription.create(question_id: self.id)
+    subscription = Subscription.create(question_id: id)
     save
-    subscription.users.push(self.author)
+    subscription.users.push(author)
   end
 end

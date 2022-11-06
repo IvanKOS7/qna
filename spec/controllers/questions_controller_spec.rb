@@ -20,7 +20,6 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'GET #show' do
-
     before { get :show, params: { id: question } }
     it 'assigns the requested question to @question' do
       expect(assigns(:question)).to eq(question)
@@ -36,7 +35,6 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'GET #new' do
-
     before { login(user) }
 
     before { get :new }
@@ -54,9 +52,7 @@ RSpec.describe QuestionsController, type: :controller do
     end
   end
 
-
   describe 'GET #edit' do
-
     before { login(user) }
 
     before { get :edit, params: { id: question } }
@@ -70,12 +66,13 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'POST #create' do
-
-  before { login(user) }
+    before { login(user) }
 
     context 'with valid attr' do
       it 'saves a new question in the db' do
-        expect { post :create, params: { question: attributes_for(:question, author: user) } }.to change(Question, :count).by(1)
+        expect do
+          post :create, params: { question: attributes_for(:question, author: user) }
+        end.to change(Question, :count).by(1)
       end
       it 'redirect to show question' do
         post :create, params: { question: attributes_for(:question, author: user) }
@@ -84,7 +81,9 @@ RSpec.describe QuestionsController, type: :controller do
     end
     context 'with invalid attr' do
       it 'NO saves a new question in the db' do
-        expect { post :create, params: { question: attributes_for(:question, :invalid, author: user) } }.to_not change(Question, :count)
+        expect do
+          post :create, params: { question: attributes_for(:question, :invalid, author: user) }
+        end.to_not change(Question, :count)
       end
       it 'redirect to show' do
         post :create, params: { question: attributes_for(:question, :invalid, author: user) }
@@ -100,7 +99,6 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'PATCH #update' do
-
     before { login(user) }
 
     context 'with valid attributes' do
@@ -134,14 +132,12 @@ RSpec.describe QuestionsController, type: :controller do
         patch :update, params: { id: question, question: attributes_for(:question, :invalid) }
         expect(response).to render_template :edit
       end
-
     end
   end
 
   describe 'DELETE #destroy' do
     before { login(user) }
     context 'Author is author' do
-
       let!(:question) { create(:question, author: user) }
       it 'deletes the question' do
         expect { delete :destroy, params: { id: question } }.to change(Question, :count).by(-1)
@@ -154,7 +150,6 @@ RSpec.describe QuestionsController, type: :controller do
     end
 
     context 'Stranger' do
-
       let!(:question) { create(:question, author: another_user) }
       it 'deletes the question' do
         expect { delete :destroy, params: { id: question } }.to_not change(Question, :count)
