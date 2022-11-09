@@ -1,5 +1,6 @@
 source "https://rubygems.org"
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
+ruby '2.5.3'
 
 gem 'rails', '~> 5.2.1'
 gem 'pg', '>= 0.18', '< 2.0'
@@ -63,7 +64,7 @@ group :development do
   gem 'capistrano-bundler', require: false
   gem 'capistrano-rails', require: false
   gem 'capistrano-passenger', require: false
-
+  gem 'capistrano-rvm', require: false
 end
 
 group :test do
