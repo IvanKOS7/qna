@@ -29,7 +29,7 @@ gem 'cancancan'
 gem 'doorkeeper'
 #Serializer
 gem 'active_model_serializers', '~> 0.10'
-# gem 'oj'
+gem 'oj'
 ##########
 gem 'sidekiq'
 gem 'sinatra', require: false
