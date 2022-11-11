@@ -40,7 +40,7 @@ gem 'jdbc-mysql',      '~> 5.1.35', :platform => :jruby
 gem 'thinking-sphinx', '~> 5.3'
 gem 'rubocop-rails', require: false
 gem 'mini_racer'
-
+gem 'ffi'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
