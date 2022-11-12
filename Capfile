@@ -7,7 +7,7 @@ require "capistrano/rvm"
 require "capistrano/bundler"
 require "capistrano/rails"
 require "capistrano/passenger"
-require 'capistrano/rails/assets'
+#require 'capistrano/rails/assets'
 # Load the SCM plugin appropriate to your project:
 #
 # require "capistrano/scm/hg"

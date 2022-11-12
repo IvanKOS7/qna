@@ -12,7 +12,7 @@ gem 'turbolinks', '~> 5'
 gem 'jbuilder', '~> 2.5'
 gem 'bootsnap', '>= 1.1.0', require: false
 gem 'slim-rails'
-
+gem 'sprockets-rails', :require => 'sprockets/railtie'
 gem 'devise'
 gem "bootstrap"
 gem 'jquery-rails'
@@ -40,7 +40,6 @@ gem 'jdbc-mysql',      '~> 5.1.35', :platform => :jruby
 gem 'thinking-sphinx', '~> 5.3'
 gem 'rubocop-rails', require: false
 gem 'mini_racer'
-gem 'ffi'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
