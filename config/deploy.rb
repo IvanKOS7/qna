@@ -6,13 +6,15 @@ set :repo_url, "https://github.com/IvanKOS7/qna.git"
 set :branch, 'main'
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
-
+set :passenger_rvm_ruby_version, '2.5.3'
 # Default deploy_to directory is /var/www/my_app_name
 set :deploy_to, "/home/ubuntu/qna"
 set :deploy_user, 'ubuntu'
+set :passenger_restart_with_touch, true
+
 set :rvm_map_bins, %w{gem rake ruby rails bundle}
-# set :rvm_custom_path, '/usr/share/rvm'
-set :default_env, { path: "~/home/ubuntu/.rvm/rubies/ruby-2.5.3/bin:$PATH" }
+# # set :rvm_custom_path, '/usr/share/rvm'
+# set :default_env, { path: "~/home/ubuntu/.rvm/rubies/ruby-2.5.3/bin:$PATH" }
 # set :rvm_ruby_version, '2.5.3'
 # Default value for :format is :airbrussh.
 # set :format, :airbrussh
@@ -23,7 +25,7 @@ set :default_env, { path: "~/home/ubuntu/.rvm/rubies/ruby-2.5.3/bin:$PATH" }
 
 # Default value for :pty is false
 # set :pty, true
-set :linked_dirs, fetch(:linked_dirs, []) << '.bundle'
+# set :linked_dirs, fetch(:linked_dirs, []) << '.bundle'
 # Default value for :linked_files is []
 append :linked_files, "config/database.yml", 'config/master.key'
 
