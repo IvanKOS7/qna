@@ -455,7 +455,6 @@ DEPENDENCIES
   doorkeeper
   factory_bot_rails
   faker
-  ffi (~> 1.13.1)
   jbuilder (~> 2.5)
   jdbc-mysql (~> 5.1.35)
   jquery-rails
