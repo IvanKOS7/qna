@@ -23,7 +23,6 @@ test:
 production:
   <<: *default
   database: qna_production
-  host: 'localhost'
   port: 5432
   username: <%= Rails.application.credentials[Rails.env.to_sym][:pgsql][:username] %>
   password: <%= Rails.application.credentials[Rails.env.to_sym][:pgsql][:password] %>
