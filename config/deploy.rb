@@ -22,7 +22,7 @@ set :rvm_map_bins, %w{gem rake ruby rails bundle}
 # You can configure the Airbrussh format using :format_options.
 # These are the defaults.
 # set :format_options, command_output: true, log_file: "log/capistrano.log", color: :auto, truncate: :auto
-before  'deploy:assets:precompile', 'deploy:migrate'
+#before  'deploy:assets:precompile', 'deploy:migrate'
 # Default value for :pty is false
 # set :pty, true
 # set :linked_dirs, fetch(:linked_dirs, []) << '.bundle'
