@@ -27,24 +27,10 @@ set :rvm_map_bins, %w{gem rake ruby rails bundle}
 # set :pty, true
 # set :linked_dirs, fetch(:linked_dirs, []) << '.bundle'
 # Default value for :linked_files is []
-append :linked_files, "config/database.yml", 'config/master.key'
+append :linked_files, "config/database.yml", 'config/master.key', 'config/production.sphinx.conf'
 
 # Default value for linked_dirs is []
-append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "tmp/webpacker", "public/system", "vendor", "storage"
-
-# Default value for default_env is {}
-# set :default_env, { path: "/opt/ruby/bin:$PATH" }
-# namespace :deploy do
-#   desc "assets precompile"
-#   task :precompile do
-#     on roles(:rails) do
-#       execute "cd #{release_path} && bundle exec rake assets:precompile RAILS_ENV=#{fetch(:production)} "
-#     end
-#   end
-#   after :publishing, :precompile
-# end     
-# Default value for local_user is ENV['USER']
-# set :local_user, -> { `git config user.name`.chomp }
+append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "tmp/webpacker", "public/system", "vendor", "storage", "db/sphinx"
 
 # Default value for keep_releases is 5
 # set :keep_releases, 5
