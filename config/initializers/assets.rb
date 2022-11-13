@@ -2,7 +2,7 @@
 
 # Version of your assets, change this if you want to expire all your assets.
 Rails.application.config.assets.configure do |env|
-  config.assets.debug = true
+  
 end
 
 # Add additional assets to the asset load path.

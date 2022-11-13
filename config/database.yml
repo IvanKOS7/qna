@@ -22,7 +22,7 @@ test:
 
 production:
   <<: *default
-  database: db/tn_qna_development
+  database: qna_production
   host: 'localhost'
   port: 5432
   username: <%= Rails.application.credentials[Rails.env.to_sym][:pgsql][:username] %>
