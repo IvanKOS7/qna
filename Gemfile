@@ -28,7 +28,7 @@ gem "omniauth-yandex", :github => '/evrone/omniauth-yandex', branch: 'dependabot
 gem 'cancancan'
 gem 'doorkeeper'
 #Serializer
-gem 'active_model_serializers', '~> 0.10'
+gem 'active_model_serializers'
 gem 'oj'
 ##########
 gem 'sidekiq'
