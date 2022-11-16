@@ -40,6 +40,8 @@ gem 'jdbc-mysql',      '~> 5.1.35', :platform => :jruby
 gem 'thinking-sphinx', '~> 5.3'
 gem 'rubocop-rails', require: false
 gem 'mini_racer'
+gem 'unicorn'
+
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'rspec-rails', '~> 3.8'
@@ -64,6 +66,7 @@ group :development do
   gem 'capistrano-passenger', require: false
   gem 'capistrano-rvm', require: false
   gem 'capistrano-sidekiq', require: false
+  gem 'capistrano3-unicorn', require: false
 end
 
 group :test do
